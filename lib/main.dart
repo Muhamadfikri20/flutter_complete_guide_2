@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide_2/main_finish.dart';
+import 'package:flutter_complete_guide_2/main_start.dart';
 import 'package:flutter_complete_guide_2/widgets/chart.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
 import './models/transaction.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyAppFinish());
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
