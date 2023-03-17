@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       theme: ThemeData(
           primarySwatch: Colors.purple,
+          errorColor: Colors.red,
           accentColor: Colors.amber,
           fontFamily: 'Quicksand',
           textTheme:
@@ -62,6 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
+  }
+
   // String titleInput;
   @override
   Widget build(BuildContext context) {
@@ -81,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [Chart(_recentTransactions), TransactionList(_userTransactions)],
+          children: [Chart(_recentTransactions), TransactionList(_userTransactions, _deleteTransaction)],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
