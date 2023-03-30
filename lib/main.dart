@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
+  List<Widget> _buildLandscapeContent(MediaQueryData mediaQuery, double appBar, Widget txListWidget) {
     return [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
           _showChart
               ? Container(
-                  height: (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top) * 0.7,
+                  height: (mediaQuery.size.height - appBar - mediaQuery.padding.top) * 0.7,
                   child: Chart(_recentTransactions),
                 )
               : txListWidget
@@ -104,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
-  List<Widget> _buildPotraitContent(MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
-    return [Container(height: (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top) * 0.3, child: Chart(_recentTransactions)), txListWidget];
+  List<Widget> _buildPotraitContent(MediaQueryData mediaQuery, double appBar, Widget txListWidget) {
+    return [Container(height: (mediaQuery.size.height - appBar - mediaQuery.padding.top) * 0.3, child: Chart(_recentTransactions)), txListWidget];
   }
 
   // String titleInput;
@@ -147,8 +147,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (isLandscape) ..._buildLandscapeContent(mediaQuery, appBar, txListWidget),
-          if (!isLandscape) ..._buildPotraitContent(mediaQuery, appBar, txListWidget),
+          if (isLandscape) ..._buildLandscapeContent(mediaQuery, appBar.preferredSize.height, txListWidget),
+          if (!isLandscape) ..._buildPotraitContent(mediaQuery, appBar.preferredSize.height, txListWidget),
         ],
       ),
     ));
