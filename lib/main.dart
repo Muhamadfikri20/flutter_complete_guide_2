@@ -108,13 +108,29 @@ class _MyHomePageState extends State<MyHomePage> {
     return [Container(height: (mediaQuery.size.height - appBar - mediaQuery.padding.top) * 0.3, child: Chart(_recentTransactions)), txListWidget];
   }
 
-  // String titleInput;
-  @override
-  Widget build(BuildContext context) {
-    print('build() MyHomePageState');
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final PreferredSizeWidget appBar = Platform.isIOS
+  Widget _buildCupertinoAppBar(PreferredSizeWidget appBar, final pageBody) {
+    return CupertinoPageScaffold(
+      navigationBar: appBar,
+      child: pageBody,
+    );
+  }
+
+  Widget _buildScaffoldAppBar(PreferredSizeWidget appBar, final pageBody) {
+    return Scaffold(
+      appBar: appBar,
+      body: pageBody,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text(
               'Personal Expenses',
@@ -137,6 +153,15 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ],
           );
+  }
+
+  // String titleInput;
+  @override
+  Widget build(BuildContext context) {
+    print('build() MyHomePageState');
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final PreferredSizeWidget appBar = _buildAppBar();
     final txListWidget =
         Container(height: (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top) * 0.7, child: TransactionList(_userTransactions, _deleteTransaction));
 
@@ -152,21 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     ));
-    return Platform.isIOS
-        ? CupertinoPageScaffold(
-            navigationBar: appBar,
-            child: pageBody,
-          )
-        : Scaffold(
-            appBar: appBar,
-            body: pageBody,
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: Platform.isIOS
-                ? Container()
-                : FloatingActionButton(
-                    child: Icon(Icons.add),
-                    onPressed: () => _startAddNewTransaction(context),
-                  ),
-          );
+    return Platform.isIOS ? _buildCupertinoAppBar(appBar, pageBody) : _buildScaffoldAppBar(appBar, pageBody);
   }
 }
